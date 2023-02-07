@@ -1,4 +1,5 @@
 
+import { Link } from "react-router-dom";
 
 const Signup = () =>  { 
 
@@ -11,7 +12,7 @@ const Signup = () =>  {
                     <div class="section-header-nav">
                         <h2 style={{fontWeight:'lighter'}}>Apple ID</h2>
                         <div class="header-nav-item">
-                            <a style={{color:'#666'}} class="none-address-style" href="http://localhost/www/AppleStore/Frontend/sign-in.php">Sign In</a>
+                            <Link style={{color:'#666'}} class="none-address-style" className="nav-items" to="/signin">Sign In</Link>
                             <a style={{color:'#666'}} class="none-address-style" href="">Create your Apple ID</a>
                             <a style={{color:'#666'}} class="none-address-style" href="">FAQ</a>
                         </div>

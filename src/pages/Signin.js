@@ -1,5 +1,22 @@
 import { Link } from "react-router-dom";
+
 const Signin = () => {
+    const directHome = () => {
+        if (localStorage.getItem("user") !== null) {
+            alert("Logged in successful. You should be directed to Apple Store")
+            window.location.href="/home";
+          }
+    }
+    directHome()
+    const API_URL = "http://localhost/www/AppleStore/Backend/";
+    const appleAccount = {
+        'get': API_URL + 'sign-in/user-account-get.php',
+        'post': API_URL + 'sign-in/user-account-post.php',
+        'management': API_URL + 'user-management/user-management.php',
+    }
+
+
+
     return (
         <>
             <section>

@@ -17,7 +17,7 @@ const Section5 = ({productsLoudandclear}) => {
 
                 {productsLoudandclear.map((item) => 
                     <div key={item.id}>
-                        <div className="accessories-nav-item border-radius-shadow hover-style">
+                        <div style={{height:'500px',marginTop:'10px'}} className="accessories-nav-item border-radius-shadow hover-style">
                         <i className="nav-item-add fa-solid fa-cart-plus add-cart-btn" ></i>
                         <img src={item.image} alt="" className="accessories-nav-item-img" />
                         <div className="fourth-accessory-nav-box">
