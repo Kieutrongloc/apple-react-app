@@ -1,7 +1,7 @@
 const SectionTemplate = () => {
     return (
         <>
-
+            
         </>
     )
 }
