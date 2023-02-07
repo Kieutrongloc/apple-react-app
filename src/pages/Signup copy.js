@@ -19,9 +19,9 @@ const Signup = () => {
                 <form id="form-signup" action="">
                     <div class="body-first">
                             <div style={{textAlign:'center'}}>
-                            <h1>Create Your Apple ID</h1>
-                            {/* <h1 style={{marginTop='54px'}}>Create Your Apple ID</h1> */}
-                            <p>One Apple ID is all you need to access all Apple services.<br></br>Already have an Apple ID? <span><a style={{color:'#0070C9'}} class="none-address-style" href="">Find it here {'>'}</a></span></p>
+                                <h1>Create Your Apple ID</h1>
+                                {/* <h1 style={{marginTop='54px'}}>Create Your Apple ID</h1> */}
+                                <p>One Apple ID is all you need to access all Apple services.<br></br>Already have an Apple ID? <span><a style={{color:'#0070C9'}} class="none-address-style" href="">Find it here {'>'}</a></span></p>
                             </div>
                         
                             <div>
