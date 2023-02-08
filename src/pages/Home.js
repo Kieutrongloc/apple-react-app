@@ -24,7 +24,7 @@ const Home = () => {
             .then(res => res.json())
             .then(
               (result) => {
-                console.log(result);
+                // console.log(result);
                 setProductsAccessories(result);
               },
               (error) => {
@@ -42,7 +42,7 @@ const Home = () => {
             .then(res => res.json())
             .then(
               (result) => {
-                console.log(result);
+                // console.log(result);
                 setProductsLoudandclear(result);
               },
               (error) => {

@@ -1,6 +1,7 @@
 import chatSupportIcon from '../../assets/img/store-support-chat.jpeg'
 import appleStoreIcon from '../../assets/img/chat-support.webp'
 const Section1 = () => {
+
     return (
         <>
         <section>

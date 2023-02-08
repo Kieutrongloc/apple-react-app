@@ -56,7 +56,7 @@ const Signup = () =>  {
                             <small>Be sure to enter a phone number you can always access. It will be used to verify your identity any time you sign in on a new device or web browser. Messaging or data rates may apply.</small>
                             <div class="third-verify">
                                 <p for="verify_with">Verify with:</p>
-                                    <input type="radio" name="verify_with" value="Text message" checked/>
+                                    <input type="radio" name="verify_with" value="Text message" defaultChecked/>
                                     <label for="Text message">Text message</label><br></br>
                                     <input type="radio" name="verify_with" value="Phone call"/>
                                     <label for="Phone call">Phone call</label><br></br>
@@ -66,13 +66,13 @@ const Signup = () =>  {
                         <div class="body-fourth">
                             <div>
                                 {/* <!-- <input type="hidden" name="announcements" value="Not subcribed"> --> */}
-                                <input type="checkbox" name="announcements" value="Subcribed" checked/>
+                                <input type="checkbox" name="announcements" value="Subcribed" defaultChecked/>
                                 <label for="announcements"> Announcements</label><br></br>
                                 <small>Receive Apple emails and communications including announcements, marketing, recommendations, and updates about Apple products, services and software.</small>
                             </div>
                             <div>
                                 {/* <!-- <input type="hidden" name="ads" value="Not subcribed"> --> */}
-                                <input type="checkbox" name="ads" value="Subcribed" checked/>
+                                <input type="checkbox" name="ads" value="Subcribed" defaultChecked/>
                                 <label for="ads"> Apps, Music, TV, and More</label><br></br>
                                 <small>Receive Apple emails and communications including new releases, exclusive content, special offers, and marketing and recommendations for apps, music, movies, TV, books, podcasts, Apple Pay, Apple Card and more.</small>
                             </div>

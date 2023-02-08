@@ -1,7 +1,9 @@
 const NoPage = () => {
     return (
         <>
-            NoPage
+            <h1 style={{textAlign:'center', color:'#666'}}>
+                Page not found
+            </h1>
         </>
     )
 }
