@@ -210,11 +210,6 @@ html {
     font-size: 16px;
 }
 
-.subnav-list-icon {
-    font-size: 16px;
-    padding: 0px 16px 0px 0px
-}
-
 /* SECTION */
 
 /* First-section */
@@ -243,6 +238,7 @@ html {
 .nav-row-chat {
     display: inline-flex;
     flex-direction: column;
+    min-width:fit-content;
 }
 
 .nav-row-chat-section {

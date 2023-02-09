@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
+import { useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
-import $ from 'jquery'; 
+import $ from 'jquery';
 
 const Signin = () => {
-
+    const showCart = useRef();
     const API_URL = "http://localhost/www/AppleStore/Backend/";
     const appleAccount = {
         'get': API_URL + 'sign-in/user-account-get.php',
@@ -64,7 +65,7 @@ const Signin = () => {
                         <input className="input-account" id="user-id" type="text" name="user" placeholder="Apple ID" />
                         <div ><input className="input-account" id="user-pw" type="password" name="password" placeholder="Password" />
                             {/* <input id="arrrow-login" type="submit" name="submit" /> */}
-                            <div id="arrrow-login" onClick={signInHandle} href=""><FontAwesomeIcon icon={faCircleArrowRight} /></div>
+                            <div id="arrrow-login" onClick={signInHandle} href=""><FontAwesomeIcon icon={faCircleArrowRight}/></div>
                             <p id="alert-message"></p>
                         </div>
                     </form>
