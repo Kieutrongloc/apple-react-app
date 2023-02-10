@@ -3,9 +3,14 @@ import { useRef } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleArrowRight } from '@fortawesome/free-solid-svg-icons'
 import $ from 'jquery';
+import React, { useEffect, useState } from 'react';
 
 const Signin = () => {
-    const showCart = useRef();
+    const [userId, userPw] = useRef(null);
+    const signInHandle = () => {}
+    useEffect => (() => {
+        userId.current.innerHTML
+    })
     const API_URL = "http://localhost/www/AppleStore/Backend/";
     const appleAccount = {
         'get': API_URL + 'sign-in/user-account-get.php',
@@ -13,36 +18,36 @@ const Signin = () => {
         'management': API_URL + 'user-management/user-management.php',
     }
 
-    var alertMessage = document.getElementById("alert-message")
-    const signInHandle = () => {
-        let userId = document.getElementById("user-id").value
-        let userPw = document.getElementById("user-pw").value
-        const data = {
-            email: userId,
-            password: userPw,
-        }
-        $.ajax({
-            url : appleAccount.post,
-            type : 'POST',
-            data: JSON.stringify(data),
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (response) {
-                if (userId=='' || userPw==''){
-                        alertMessage.innerHTML="Please enter both fields";
-                } else if (response && response.msg == 'no'){
-                    alertMessage.innerHTML="Apple ID or password is invalid";
-                } if (response && response.msg == 'ok'){
-                    localStorage.setItem("user", JSON.stringify(response.user));
-                    window.location.href= "http://localhost:3000/";
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-               console.log(textStatus, errorThrown);
-            } 
-        });
-        console.log(data)
-    }
+    // var alertMessage = document.getElementById("alert-message")
+    // const signInHandle = () => {
+    //     let userId = document.getElementById("user-id").value
+    //     let userPw = document.getElementById("user-pw").value
+    //     const data = {
+    //         email: userId,
+    //         password: userPw,
+    //     }
+    //     $.ajax({
+    //         url : appleAccount.post,
+    //         type : 'POST',
+    //         data: JSON.stringify(data),
+    //         dataType: 'json',
+    //         contentType: 'application/json',
+    //         success: function (response) {
+    //             if (userId=='' || userPw==''){
+    //                     alertMessage.innerHTML="Please enter both fields";
+    //             } else if (response && response.msg == 'no'){
+    //                 alertMessage.innerHTML="Apple ID or password is invalid";
+    //             } if (response && response.msg == 'ok'){
+    //                 localStorage.setItem("user", JSON.stringify(response.user));
+    //                 window.location.href= "http://localhost:3000/";
+    //             }
+    //         },
+    //         error: function(jqXHR, textStatus, errorThrown) {
+    //            console.log(textStatus, errorThrown);
+    //         } 
+    //     });
+    //     console.log(data)
+    // }
 
     // Auto-direct to homepage if user is logged in already
     const directHome = () => {
@@ -62,8 +67,9 @@ const Signin = () => {
                 <div id="section-centered">
                     <h2>Sign in to Apple Store</h2>
                     <form id="section-input">
-                        <input className="input-account" id="user-id" type="text" name="user" placeholder="Apple ID" />
-                        <div ><input className="input-account" id="user-pw" type="password" name="password" placeholder="Password" />
+                        <input ref={userId} className="input-account" id="user-id" type="text" name="user" placeholder="Apple ID" />
+                        <div>
+                            <input ref={userPw} className="input-account" id="user-pw" type="password" name="password" placeholder="Password" />
                             {/* <input id="arrrow-login" type="submit" name="submit" /> */}
                             <div id="arrrow-login" onClick={signInHandle} href=""><FontAwesomeIcon icon={faCircleArrowRight}/></div>
                             <p id="alert-message"></p>
