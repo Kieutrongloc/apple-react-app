@@ -1,7 +1,45 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
+import { useNavigate } from 'react-router-dom';
+import React, {useState} from 'react';
 
 const Section5 = ({productsLoudandclear}) => {
+
+    const API_URL = "http://localhost/www/AppleStore/Backend/";
+    const cartAPI = {
+        'save': API_URL + 'cart/cart-save.php',
+    }
+    //Wanna import entire this to Home.js
+     //Add product to cart
+    const navigateSignIn = useNavigate();
+    const addToCart = (id, image, name, price) => {
+        localStorage.getItem("user") === null
+        ? window.confirm('Please login your Apple ID to add to cart') && navigateSignIn('./signin')
+        : addCartHandle(id, image, name, price)
+    }
+
+    const addCartHandle = async (id, image, name, price) => {
+        const data = {
+            id: id,
+            name: name, 
+            price: price,
+            image: image,
+            userid: JSON.parse(window.localStorage.getItem('user')).id,
+        }
+        const response = await fetch(cartAPI.save, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data) 
+          });
+          response.json().then(function(data){
+            window.getCartItems(data)
+          })
+        
+    }
+
     return (
         <>
         <div class="main-fifth-additional-devices">
@@ -21,7 +59,7 @@ const Section5 = ({productsLoudandclear}) => {
                 {productsLoudandclear.map((item) => 
                     <div key={item.id}>
                         <div style={{height:'500px',marginTop:'10px'}} className="accessories-nav-item border-radius-shadow hover-style">
-                        {/* <FontAwesomeIcon onClick={addToCart} className='add-cart-btn' icon={faCartPlus}/> */}
+                        <FontAwesomeIcon onClick={() => addToCart(item.id, item.image, item.name, item.price)} className='add-cart-btn' icon={faCartPlus}/>
                         <img src={item.image} alt="" className="accessories-nav-item-img" />
                         <div className="fourth-accessory-nav-box">
                             <p className="nav-item-accessories-status">{item.status}</p>

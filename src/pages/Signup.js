@@ -1,12 +1,14 @@
 
 import { Link } from "react-router-dom";
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () =>  {
     const API_URL = "http://localhost/www/AppleStore/Backend/";
     const appleAccountSignUp = {
         'post': API_URL + 'sign-up/user-account-post.php',
     }
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({});
 
@@ -37,10 +39,18 @@ const Signup = () =>  {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
-              },
+            },
             body: JSON.stringify(formData)
-            
         })
+        .then(response => response.json())
+        .then((data) => {
+            if (data.msg=="ok") {
+                alert('Successfully. You should be directed to login page!')
+                navigate('./../signin')
+            } else if (data.msg=="email error") {
+                alert('Email already exists!')
+            } else {alert('Please check again')}
+          })
     }
 
     // Check if passwords do not match 

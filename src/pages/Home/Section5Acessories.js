@@ -18,7 +18,7 @@ const Section5 = ({productsAccessories}) => {
         : addCartHandle(id, image, name, price)
     }
 
-    const addCartHandle = (id, image, name, price) => {
+    const addCartHandle = async (id, image, name, price) => {
         const data = {
             id: id,
             name: name, 
@@ -26,7 +26,7 @@ const Section5 = ({productsAccessories}) => {
             image: image,
             userid: JSON.parse(window.localStorage.getItem('user')).id,
         }
-        const response = fetch(cartAPI.save, {
+        const response = await fetch(cartAPI.save, {
             method: 'POST',
             headers: {
               'Accept': 'application/json',

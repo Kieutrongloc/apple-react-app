@@ -32,6 +32,7 @@ const Header = () => {
             )
         };
         getCartItems()
+        window.getCartItems = getCartItems
     }, [])
 
     // Delete user from localStorage when clicking signOut
@@ -121,6 +122,35 @@ const Header = () => {
             });
     }
 
+    //Update quantity at cart onchange:
+    const updateQuantity = (event, id) => {
+        var options = {
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        };
+        fetch(cartAPI.update +'/?id=' + id +'&quantity=' + event.target.value, options)
+            .then(function(cartresponse) {
+                cartresponse.json().then(function(data){
+                    window.getCartItems(data)
+                  })
+            })
+            .then(function() {
+        });
+    }
+
+    // Calculate total item in the cart:
+    const quantityAtBag = useRef(null)
+    const totalCart = () => {
+        var total = cartItems.reduce(
+            (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity),0
+        );
+    }
+    console.log()
+    totalCart()
+
     return (
         <header>
             <div className="header" id="header">
@@ -137,7 +167,7 @@ const Header = () => {
                     )}
 
                     <li ref={showCart} id="nav-res-mobile-show-bag" style={{position:'relative', display:'block'}}><div href="" className="nav-icons" id="nav-icons-bag" onClick={showSubnav}><img ref={userAvatar} id="user-avatar" src={''} alt="avatar"/></div>
-                        <p className="cart-quantity-at-bag" onClick={showSubnav}>11</p>
+                        <p ref={quantityAtBag} className="cart-quantity-at-bag" onClick={showSubnav}></p>
                         <div id="subnav-cart-checkout">
                             <div className="cart-checkout-table">
                                 {cartItems.map((item) =>
@@ -148,7 +178,7 @@ const Header = () => {
                                             <p style={{color:'black' }}className="checkout-item-name">{item.name}</p>
                                         </div>
                                         <div style={{display: 'flex',justifyContent: 'space-between'}}>
-                                            <input onClick="" style={{maxWidth: '40px'}} type="number" defaultValue={item.quantity} min={1} class="checkout-item-qtt"></input>
+                                            <input onChange={(event) => updateQuantity(event, item.id)} style={{maxWidth: '40px'}} type="number" defaultValue={item.quantity} min={1} class="checkout-item-qtt"></input>
                                             <p style={{color:'black'}} className="checkout-item-price"><span>$</span><span className="checkout-item-pricenumber">{Number(item.price)*Number(item.quantity)}</span></p>
                                         </div>
                                     </div>
