@@ -1,10 +1,46 @@
-import React, { Link } from "react-router-dom";
+import React, { json, Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSuitcase, faTag, faBox, faGear, faUser} from '@fortawesome/free-solid-svg-icons'
+import { faSuitcase, faTag, faBox, faGear, faUser, faSignOut} from '@fortawesome/free-solid-svg-icons'
 
 const Header = () => {
-    const showCart = useRef();
+
+    //API
+    const API_URL = "http://localhost/www/AppleStore/Backend/";
+    const cartAPI = {
+        'get': API_URL + 'cart/cart-get.php',
+        'save': API_URL + 'cart/cart-save.php',
+        'delete': API_URL + 'cart/cart-delete.php',
+        'update': API_URL + 'cart/cart-update.php',
+        // 'loudandclear': API_URL + 'accessories-manage/loudandclear-get.php',
+    }
+    
+    //Render cart
+    const [cartItems, setCartItems] = useState([]);
+    useEffect(() => {
+        const getCartItems = async () => {
+            await fetch(cartAPI.get + '/?user_id=' + JSON.parse(window.localStorage.getItem('user')).id)
+            .then(res => res.json())
+            .then(
+              (result) => {
+                // console.log(result);
+                setCartItems(result);
+              },
+              (error) => {
+                // console.log(error);
+              }
+            )
+        };
+        getCartItems()
+    }, [])
+
+    // Delete user from localStorage when clicking signOut
+    const signOut = () => {
+        window.localStorage.removeItem('user')
+        window.location.href="/"
+    }
+    
+    // Header navigation array 
     const headerNav = [
     {id: 1, title:'Store', link: ''},
     {id: 2, title:'Mac', link: ''},
@@ -20,32 +56,70 @@ const Header = () => {
     {id: 12, title:'SignUp', link: '/signup', display: 'none'}];
     const filteredHeaderNav = localStorage.getItem("user") !== null ? headerNav.filter(item => item.display !== 'none') : headerNav;
     
-    const checkoutList = [
+    //Checkout item array
+    const checkoutList = 
+    localStorage.getItem("user") !== null 
+    ? [
     {id: 1, icon: faSuitcase, title:'Bag', link: ''},
     {id: 2, icon: faTag, title:'Saved Item', link: ''},
     {id: 3, icon: faBox, title:'Orders', link: ''},
     {id: 4, icon: faGear, title:'Manage Products', link: ''},
-    {id: 5, icon: faGear, title:'x', link: ''},
-    {id: 6, icon: faUser, title:'x', link: ''}]
+    {id: 5, icon: faUser, title: JSON.parse(window.localStorage.getItem('user')).first_name + ' ' + JSON.parse(window.localStorage.getItem('user')).last_name, link: ''},
+    {id: 6, icon: faSignOut, title:'Log out', link: '', onclick: signOut}] : [];
     
+    // Show cart/checkoutlist if user is logged in 
+    const showCart = useRef(null);
+    const cartQuantity = useRef(null)
+    const userAvatar = useRef(null)
+    useEffect(() => {
+        localStorage.getItem("user") === null 
+        ?
+        showCart.current.style.display = 'none'
+        :
+        getUserData()
+        cartQuantity.current.innerHTML = 'You have xxx item(s) in your cart'
+    }, [])
+
+    // userAvatar.current.src = JSON.parse(window.localStorage.getItem('user')).avatar_link;
+
+
     const getUserData = () => {
         {localStorage.getItem("user") === null
         ?
-        console.log('not yet')
+        console.log('get user data test true')
         :
-        console.log('')
+        console.log('get user data test false')
         }
     }
-    getUserData()
 
+    //Show cart/checkoutlist on click
     const showSubnav = () => {
-        const x = document.querySelector("#subnav-cart-checkout");
-        if (x.style.display === "block") {
-            x.style.display = "none";
+        const cart = document.querySelector("#subnav-cart-checkout");
+        if (cart.style.display === "block") {
+            cart.style.display = "none";
         } else {
-            x.style.display = "block";
+            cart.style.display = "block";
         }
         }
+    
+    //Remove item from cart on click
+    const removeItem = (id) => {
+        let userID = JSON.parse(window.localStorage.getItem('user')).id
+        var options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        };
+        fetch(cartAPI.delete +'/?id=' + id + '&user_id=' + userID, options)
+            .then(function(cartresponse) {
+                cartresponse.json().then(function(data){
+                    window.getCartItems(data)
+                  })
+            })
+            .then(function() {
+            });
+    }
 
     return (
         <header>
@@ -61,24 +135,40 @@ const Header = () => {
                         </Link>
                     </li>
                     )}
-                    <li ref={showCart} id="nav-res-mobile-show-bag" style={{position:'relative', display:'block'}}><div href="" className="nav-icons" id="nav-icons-bag" onClick={showSubnav}><img id="user-avatar" src="" alt="avatar"/></div>
-                        <p className="cart-quantity-at-bag" onClick={showSubnav}></p>
+
+                    <li ref={showCart} id="nav-res-mobile-show-bag" style={{position:'relative', display:'block'}}><div href="" className="nav-icons" id="nav-icons-bag" onClick={showSubnav}><img ref={userAvatar} id="user-avatar" src={''} alt="avatar"/></div>
+                        <p className="cart-quantity-at-bag" onClick={showSubnav}>11</p>
                         <div id="subnav-cart-checkout">
                             <div className="cart-checkout-table">
-                                <div className="cart-checkout-table-item">
+                                {cartItems.map((item) =>
+                                <div key={item.id} style={{display: 'flex', justifyContent: 'space-between', paddingBottom: '10px'}} className="subnav-item-list">
+                                    <img src={item.image} alt="" class="checkout-item-img"></img>
+                                    <div className="cart-checkout-item-list">
+                                        <div style={{display: 'flex'}}>
+                                            <p style={{color:'black' }}className="checkout-item-name">{item.name}</p>
+                                        </div>
+                                        <div style={{display: 'flex',justifyContent: 'space-between'}}>
+                                            <input onClick="" style={{maxWidth: '40px'}} type="number" defaultValue={item.quantity} min={1} class="checkout-item-qtt"></input>
+                                            <p style={{color:'black'}} className="checkout-item-price"><span>$</span><span className="checkout-item-pricenumber">{Number(item.price)*Number(item.quantity)}</span></p>
+                                        </div>
+                                    </div>
+                                    <p style={{color:'red', margin: '20px 0px', cursor: 'pointer'}} className="checkout-item-remove" onClick={() => removeItem(item.id)}>Remove</p>
                                 </div>
-                                <div className="subnav-line-through"></div>
-                                <p className="subnav-checkout-total"><span className="subnav-checkout-total-number">No item in your cart</span></p>
-                                <a href="" className="subnav-checkout">Check out</a>
+                                )}
+                                    <div>
+                                        <div className="subnav-line-through"></div>
+                                        <p ref={cartQuantity} className="subnav-checkout-total">No item in your cart</p>
+                                        <a href="" className="subnav-checkout">Check out</a>
+                                    </div>
                             </div>
                             <ul className="subnav-checkout-list">
                                 {checkoutList.map(item =>
-                                    <li className="subnav-select-list"><div className="subnav-list-address hover-underline"></div>
-                                    <Link className="subnav-list-address hover-underline" to=''>
+                                    <li key={item.id} className="subnav-select-list"><div className="subnav-list-address hover-underline"></div>
+                                    <Link className="subnav-list-address hover-underline" to='' onClick={item.onclick}>
                                         <FontAwesomeIcon style={{paddingRight:'16px'}} icon={item.icon}/>
                                         {item.title}
                                     </Link>
-                                </li>
+                                    </li>
                                 )}
                             </ul>
                         </div>

@@ -53,7 +53,6 @@ const Signin = () => {
     // Auto-direct to homepage if user is logged in already
     const directHome = () => {
         if (localStorage.getItem("user") !== null) {
-            alert("Logged in successful. You should be directed to Apple Store")
             window.location.href="http://localhost:3000/";
         }
     }

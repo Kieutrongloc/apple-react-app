@@ -150,10 +150,6 @@ html {
     overflow: auto;
 }
 
-.cart-checkout-table {
-    display: none;
-}
-
 #subnav-cart-checkout {
     background-color: var(--white-color);
     border-radius: 10px;
@@ -162,10 +158,24 @@ html {
     border: solid 1px var(--brown-color);
     width: 286px;
     left: -136px;
-    top: 46px;
+    top: 52px;
     display: none;
     z-index: 1;
+    
 }
+
+#subnav-cart-checkout::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -8px;
+    left: calc(60% - 30px);
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid var(--brown-color);
+  }
 
 .checkout-item-img {
     width: 80px;
@@ -430,6 +440,16 @@ html {
     color: lightsalmon;
 }
 /* Main fourth and fifth accessories */
+
+.accessories-nav-item .add-cart-btn {
+    float: right;
+    transition: transform .3s ease;
+}
+
+.accessories-nav-item .add-cart-btn:hover {
+    color: #42a1ec;
+    transform: scale(1.6);
+}
 
 .main-fourth-accessories,
 .main-fifth-additional-devices {

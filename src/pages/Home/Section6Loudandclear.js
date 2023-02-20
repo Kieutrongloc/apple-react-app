@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
+
 const Section5 = ({productsLoudandclear}) => {
     return (
         <>
@@ -18,12 +21,12 @@ const Section5 = ({productsLoudandclear}) => {
                 {productsLoudandclear.map((item) => 
                     <div key={item.id}>
                         <div style={{height:'500px',marginTop:'10px'}} className="accessories-nav-item border-radius-shadow hover-style">
-                        <i className="nav-item-add fa-solid fa-cart-plus add-cart-btn" ></i>
+                        {/* <FontAwesomeIcon onClick={addToCart} className='add-cart-btn' icon={faCartPlus}/> */}
                         <img src={item.image} alt="" className="accessories-nav-item-img" />
                         <div className="fourth-accessory-nav-box">
                             <p className="nav-item-accessories-status">{item.status}</p>
                             <p className="accessories-nav-item-name">{item.name}</p>
-                            <p className="accessories-nav-item-price">{item.price}</p>
+                            <p className="accessories-nav-item-price"><span>$</span>{item.price}</p>
                         </div>
                     </div>
                 </div> 

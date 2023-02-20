@@ -17,6 +17,7 @@ const Home = () => {
         'loudandclear': API_URL + 'accessories-manage/loudandclear-get.php',
     }
     
+    //Render accessories product list
     const [productsAccessories, setProductsAccessories] = useState([]);
     useEffect(() => {
         const getProductsAccessories = async () => {
@@ -35,6 +36,7 @@ const Home = () => {
         getProductsAccessories()
     }, [])
 
+    //Render loudandclear product list
     const [productsLoudandclear, setProductsLoudandclear] = useState([]);
     useEffect(() => {
         const getProductsLoudandclear = async () => {
@@ -52,13 +54,15 @@ const Home = () => {
         }
         getProductsLoudandclear()
     }, [])
+
+    
     return (
         <>
             <Section1 />
             <Section2 />
             <Section3 />
             <Section4 />
-            <Section5 productsAccessories={productsAccessories} />
+            <Section5 productsAccessories={productsAccessories}  />
             <Section6 productsLoudandclear={productsLoudandclear} />
             <Section7 />
             <Section8 />
