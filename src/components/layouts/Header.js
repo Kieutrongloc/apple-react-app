@@ -40,6 +40,19 @@ const Header = () => {
         window.localStorage.removeItem('user')
         window.location.href="/"
     }
+
+        // Calculate total item in the cart:
+        var cartTotalItem;
+        var cartTotalPrice;
+        const totalCart = () => {
+            cartTotalItem = cartItems.reduce(
+                (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity),0
+            );
+            cartTotalPrice = cartItems.reduce(
+                (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity*currentValue.price),0
+            );
+        }
+        totalCart()
     
     // Header navigation array 
     const headerNav = [
@@ -61,7 +74,7 @@ const Header = () => {
     const checkoutList = 
     localStorage.getItem("user") !== null 
     ? [
-    {id: 1, icon: faSuitcase, title:'Bag', link: ''},
+    {id: 1, icon: faSuitcase, title:'Bag' +' ('+ cartTotalItem +')', link: ''},
     {id: 2, icon: faTag, title:'Saved Item', link: ''},
     {id: 3, icon: faBox, title:'Orders', link: ''},
     {id: 4, icon: faGear, title:'Manage Products', link: ''},
@@ -70,28 +83,14 @@ const Header = () => {
     
     // Show cart/checkoutlist if user is logged in 
     const showCart = useRef(null);
-    const cartQuantity = useRef(null)
     const userAvatar = useRef(null)
     useEffect(() => {
-        localStorage.getItem("user") === null 
-        ?
-        showCart.current.style.display = 'none'
-        :
-        getUserData()
-        cartQuantity.current.innerHTML = 'You have xxx item(s) in your cart'
+        if (localStorage.getItem("user") === null) {
+            showCart.current.style.display = 'none'
+        } else { if (JSON.parse(localStorage.getItem('user')).avatar_link!=='') {
+            showCart.current.querySelector('.nav-icons').querySelector('#user-avatar').src=JSON.parse(localStorage.getItem('user')).avatar_link
+        }}
     }, [])
-
-    // userAvatar.current.src = JSON.parse(window.localStorage.getItem('user')).avatar_link;
-
-
-    const getUserData = () => {
-        {localStorage.getItem("user") === null
-        ?
-        console.log('get user data test true')
-        :
-        console.log('get user data test false')
-        }
-    }
 
     //Show cart/checkoutlist on click
     const showSubnav = () => {
@@ -141,23 +140,10 @@ const Header = () => {
         });
     }
 
-    // Calculate total item in the cart:
-    const quantityAtBag = useRef(null)
-    const totalCart = () => {
-        var total = cartItems.reduce(
-            (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity),0
-        );
-    }
-    console.log()
-    totalCart()
-
     return (
         <header>
             <div className="header" id="header">
                 <ul id="header-nav" className="none-address-style">
-                    {/* <li className="nav-res-pchide"><i className="fa-solid fa-bars"></i></li> */}
-                    {/* <li className="nav-res-mobile-show-appleicon"><a href="index.php" className="nav-icons"><i className="fa-brands fa-apple"></i></a></li> */}
-
                     {filteredHeaderNav.map(item =>
                     <li key={item.id} className="nav-res-mobile-hide">
                         <Link className="nav-items" to={item.link}>
@@ -166,8 +152,8 @@ const Header = () => {
                     </li>
                     )}
 
-                    <li ref={showCart} id="nav-res-mobile-show-bag" style={{position:'relative', display:'block'}}><div href="" className="nav-icons" id="nav-icons-bag" onClick={showSubnav}><img ref={userAvatar} id="user-avatar" src={''} alt="avatar"/></div>
-                        <p ref={quantityAtBag} className="cart-quantity-at-bag" onClick={showSubnav}></p>
+                    <li ref={showCart} id="nav-res-mobile-show-bag" style={{position:'relative', display:'block'}}><div href="" className="nav-icons" id="nav-icons-bag" onClick={showSubnav}><img ref={userAvatar} id="user-avatar" src={'https://www.ounaturg.ee/assets/default-avatar-315a351c4a600465ca4672b2df60cdaa.png'} alt="avatar"/></div>
+                        <p className="cart-quantity-at-bag" onClick={showSubnav}>{cartTotalItem}</p>                        
                         <div id="subnav-cart-checkout">
                             <div className="cart-checkout-table">
                                 {cartItems.map((item) =>
@@ -187,7 +173,7 @@ const Header = () => {
                                 )}
                                     <div>
                                         <div className="subnav-line-through"></div>
-                                        <p ref={cartQuantity} className="subnav-checkout-total">No item in your cart</p>
+                                        {cartTotalItem<1?<p className="subnav-checkout-total">No item in your cart</p>:<p className="subnav-checkout-total">Total: ${cartTotalPrice}</p>}
                                         <a href="" className="subnav-checkout">Check out</a>
                                     </div>
                             </div>

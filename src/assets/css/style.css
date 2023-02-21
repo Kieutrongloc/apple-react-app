@@ -2,6 +2,7 @@
     --white-color: #fff;
     --black-color: #000;
     --brown-color: #6E6E73;
+    /* overflow-x: hidden; */
 }
 
 * {
@@ -41,7 +42,21 @@ html {
 
 .overflow-hidden::-webkit-scrollbar {
     display: none;
-  }
+}
+
+.main-first-top-devices,
+.main-second-support,
+.main-third-store,
+.main-fourth-accessories,
+.main-fifth-additional-devices,
+.main-sixth-services,
+.main-eighth-special-stores,
+.main-eighth-quicklinks {
+    margin:0 auto;
+    max-width: 1000px;
+    width: 70%;
+    min-width: 60%;
+}
 
 #header-nav,
 .section-nav-row {
@@ -135,8 +150,8 @@ html {
 
 .cart-quantity-at-bag {
     position: absolute;
-    left: 6px;
-    top: 10px;
+    left: 16px;
+    top: 18px;
     background-color: #1D1D1F;
     border: 1px solid var(--white-color);
     border-radius: 10px;

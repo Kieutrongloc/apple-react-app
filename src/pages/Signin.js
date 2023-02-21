@@ -47,7 +47,6 @@ const Signin = () => {
                console.log(textStatus, errorThrown);
             } 
         });
-        console.log(data, userIdInput.current.value, userPwInput.current.value, alertMessage.current)
     }
 
     // Auto-direct to homepage if user is logged in already
