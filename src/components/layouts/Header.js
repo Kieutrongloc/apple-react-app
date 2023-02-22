@@ -78,7 +78,7 @@ const Header = () => {
     {id: 2, icon: faTag, title:'Saved Item', link: ''},
     {id: 3, icon: faBox, title:'Orders', link: ''},
     {id: 4, icon: faGear, title:'Manage Products', link: ''},
-    {id: 5, icon: faUser, title: JSON.parse(window.localStorage.getItem('user')).first_name + ' ' + JSON.parse(window.localStorage.getItem('user')).last_name, link: ''},
+    {id: 5, icon: faUser, title: JSON.parse(window.localStorage.getItem('user')).first_name + ' ' + JSON.parse(window.localStorage.getItem('user')).last_name, link: 'http://localhost:3000/user-management'},
     {id: 6, icon: faSignOut, title:'Log out', link: '', onclick: signOut}] : [];
     
     // Show cart/checkoutlist if user is logged in 
@@ -180,7 +180,7 @@ const Header = () => {
                             <ul className="subnav-checkout-list">
                                 {checkoutList.map(item =>
                                     <li key={item.id} className="subnav-select-list"><div className="subnav-list-address hover-underline"></div>
-                                    <Link className="subnav-list-address hover-underline" to='' onClick={item.onclick}>
+                                    <Link className="subnav-list-address hover-underline" to={item.link} onClick={item.onclick}>
                                         <FontAwesomeIcon style={{paddingRight:'16px'}} icon={item.icon}/>
                                         {item.title}
                                     </Link>

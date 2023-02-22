@@ -42,7 +42,6 @@ const Signup = () =>  {
             },
             body: JSON.stringify(formData)
         })
-        .then(response => response.json())
         .then((data) => {
             if (data.msg=="ok") {
                 alert('Successfully. You should be directed to login page!')

@@ -12,7 +12,7 @@ import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import NoPage from "./pages/NoPage";
-import usermanagement from './pages/user-management';
+import UserManagement from './pages/user-management';
 
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="signin" element={<Signin />} />
             <Route path="signup" element={<Signup />} />
-            <Route path="user-management" element={<usermanagement />} />
+            <Route path="user-management" element={<UserManagement />} />
             <Route path="*" element={<NoPage />} />
           </Route>
         </Routes>
