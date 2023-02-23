@@ -49,7 +49,7 @@ const Signup = () =>  {
             } else if (data.msg=="email error") {
                 alert('Email already exists!')
             } else {alert('Please check again')}
-          })
+        })
     }
 
     // Check if passwords do not match 
