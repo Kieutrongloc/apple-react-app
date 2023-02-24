@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import '../assets/css/user-management.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAppleAlt, faKey, faUserShield, faUser, faUserGroup, faPersonWalkingDashedLineArrowRight, faCalendarDays, faUserTie, faEarthAsia, faComment, } from '@fortawesome/free-solid-svg-icons'
@@ -22,19 +22,21 @@ const UserManagement = () => {
     const signInBody = [
         {id: 1, ptitle: 'Apple ID', psub: userDb.email, onclick: () => popupAppleID(), icon: faAppleAlt},
         {id: 2, ptitle: 'Password', psub: 'Secure your account', onclick: () => popupPassword(), icon: faKey},
-        {id: 3, ptitle: 'Account Security', psub: 'Two-facter authentication', onclick: () => alert('Function updating'), icon: faUserShield},
-        {id: 4, ptitle: 'Account Recovery', psub: 'Not set up', onclick: () => alert('Function updating'), icon: faUser},
-        {id: 5, ptitle: 'Legacy Contact', psub: 'Not set up', onclick: () => alert('Function updating'), icon: faUserGroup},
-        {id: 6, ptitle: 'Sign in with Apple', psub: '7 apps and websites', onclick: () => alert('Function updating'), icon: faPersonWalkingDashedLineArrowRight},
-        {id: 8, ptitle: 'App-Specific Passwords', psub: 'View details', onclick: () => alert('Function updating'), icon: faKey}
+        {id: 3, ptitle: 'Account Security', psub: 'Two-facter authentication', onclick: () => alertUpdating(), icon: faUserShield},
+        {id: 4, ptitle: 'Account Recovery', psub: 'Not set up', onclick: () => alertUpdating(), icon: faUser},
+        {id: 5, ptitle: 'Legacy Contact', psub: 'Not set up', onclick: () => alertUpdating(), icon: faUserGroup},
+        {id: 6, ptitle: 'Sign in with Apple', psub: '7 apps and websites', onclick: () => alertUpdating(), icon: faPersonWalkingDashedLineArrowRight},
+        {id: 8, ptitle: 'App-Specific Passwords', psub: 'View details', onclick: () => alertUpdating(), icon: faKey}
     ]
 
     const personalBody = [
         {id: 1, ptitle: 'Name', psub: userDb.first_name +' '+ userDb.last_name, onclick: () => popupName(), classname:'user-name', icon: faUser},
         {id: 2, ptitle: 'Birthday', psub: userDb.birthday, onclick: () => popupBirthday(), classname:'user-birthday', icon: faCalendarDays},
-        {id: 3, ptitle: 'Avatar', psub: 'Uploaded', onclick: () => popupAvatar(), classname:'', icon: faUserTie},
+        userDb.avatar_link==''
+        ?{id: 3, ptitle: 'Avatar', psub: 'Not Uploaded', onclick: () => popupAvatar(), classname:'', icon: faUserTie}
+        :{id: 3, ptitle: 'Avatar', psub: 'Uploaded', onclick: () => popupAvatar(), classname:'', icon: faUserTie},
         {id: 4, ptitle: 'Country / Region', psub: userDb.country, classname:'user-country', onclick: () => popupCountryRegion(), icon: faEarthAsia},
-        {id: 5, ptitle: 'Languages', psub: userDb.country, onclick: () => alert('Function updating'), classname:'user-country', icon: faComment},
+        {id: 5, ptitle: 'Languages', psub: userDb.country, onclick: () => alertUpdating(), classname:'user-country', icon: faComment},
         {id: 6, ptitle: 'Reachable at', psub: userDb.phone, onclick: () => popupLanguages(), classname:'user-phone', icon: faComment},
     ]
 
@@ -53,6 +55,11 @@ const UserManagement = () => {
         event.target.parentElement.getElementsByTagName("li")[0].style.fontWeight='normal'
         articlePersonal.current.style.display='block'
         articleSignIn.current.style.display='none'
+    }
+
+    //Show function updating alert
+    const alertUpdating = () => {
+        alert('Function updating...')
     }
 
     // Open pop up after clicking article box
@@ -198,6 +205,7 @@ const UserManagement = () => {
         });
     }
 
+    //Update birthday
     const updateBirthDay = (event) => {
         const birthDay = event.target.parentElement.parentElement.querySelector(".popup-box-body").querySelector("input").value
         var options = {
@@ -217,6 +225,68 @@ const UserManagement = () => {
         });
     }
 
+    //Update avatar
+    const updateAVatar = (event) => {
+        // event.preventDefault();
+        // var formData = new FormData(this);
+        // var user = localStorage.getItem('user');
+        // if(user){
+        //   user = JSON.parse(user);
+        //   formData.append('user_id', user.id);
+        // }
+
+        // $.ajax({
+        //     type:'POST',
+        //     url: API_URL + '/user-management/user-management.php',
+        //     data:formData,
+        //     cache:false,
+        //     contentType: false,
+        //     processData: false,
+        //     success:function(response){
+        //         if (response.msg == 'ERRORNESTED') {
+        //             alert('Please check again!')
+        //         } else {
+        //             alert("Updated successful!");
+        //             // localStorage.setItem("user", JSON.stringify(response));
+        //             console.log(JSON.parse(response));
+        //         }
+        //     },
+        //     error: function(data){
+        //         console.log("error");
+        //         console.log(data);
+        //     }
+        // });
+    }
+
+    $('#imageUploadForm').on('submit',(function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var user = localStorage.getItem('user');
+        if(user){
+            user = JSON.parse(user);
+            formData.append('user_id', user.id);
+        }
+    
+        $.ajax({
+            type:'POST',
+            url: API_URL + '/user-management/user-management.php',
+            data:formData,
+            cache:false,
+            contentType: false,
+            processData: false,
+            success:function(data){
+                alert("Updated successful!");
+                localStorage.setItem("user", JSON.stringify(JSON.parse(data)));
+                console.log(JSON.parse(data));
+            },
+            error: function(data){
+                console.log("error");
+                console.log(data);
+            }
+        });
+    }));
+
+    //Update country
     const updateCountry = (event) => {
         const countrySelected = event.target.parentElement.parentElement.querySelector(".popup-box-body").querySelector("select").querySelector('select option:checked').value
         var options = {
@@ -230,7 +300,7 @@ const UserManagement = () => {
             .then(function(response) {
                 response.json().then(function(data){
                   localStorage.setItem("user", JSON.stringify(data));
-                  })
+                })
             })
             .then(function() {alert("Updated successful!"); closeBox(event); window.location.reload()
         });
@@ -258,7 +328,7 @@ const UserManagement = () => {
             .then(function(response) {
                 response.json().then(function(data){
                   localStorage.setItem("user", JSON.stringify(data)); setData(data);
-                  })
+                })
             })
             .then(function() {alert("Updated successful!"); closeBox(event);
           });
@@ -285,17 +355,17 @@ const UserManagement = () => {
                 <aside id="aside">
                     <div>
                         <div id="aside-user-info">
-                            <img id="user-avatar" src={JSON.parse(window.localStorage.getItem('user')).avatar_link==''?'https://www.ounaturg.ee/assets/default-avatar-315a351c4a600465ca4672b2df60cdaa.png':JSON.parse(window.localStorage.getItem('user')).avatar_link} alt="avatar"/>
+                            <img id="user-avatar" src={JSON.parse(window.localStorage.getItem('user')).avatar_link==''?'https://www.ounaturg.ee/assets/default-avatar-315a351c4a600465ca4672b2df60cdaa.png':"http://localhost/www/AppleStore/Backend/"+JSON.parse(window.localStorage.getItem('user')).avatar_link} alt="avatar"/>
                             <p className="user-name">{JSON.parse(window.localStorage.getItem('user')).first_name + ' ' + JSON.parse(window.localStorage.getItem('user')).last_name}</p>
                             <p className="user-email">{JSON.parse(window.localStorage.getItem('user')).email}</p>
                         </div>
                         <ul id="aside-nav">
                             <li onClick={(event) => showSignIn(event)} style={{fontWeight:'bolder'}} >Sign-In and Security</li>
                             <li onClick={(event) => showPersonal(event)}>Personal Information</li>
-                            <li>Payment Methods</li>
-                            <li>Family Sharing</li>
-                            <li>Devices</li>
-                            <li>Privacy</li>
+                            <li onClick={alertUpdating}>Payment Methods</li>
+                            <li onClick={alertUpdating}>Family Sharing</li>
+                            <li onClick={alertUpdating}>Devices</li>
+                            <li onClick={alertUpdating}>Privacy</li>
                         </ul>
                     </div>
                 </aside>
@@ -415,7 +485,7 @@ const UserManagement = () => {
                             </div>
                         </div>
 
-                        <form id="imageUploadForm" encType="multipart/form-data" method="post">
+                        <form onSubmit={updateAVatar} id="imageUploadForm" encType="multipart/form-data" method="post">
                             <div ref={popupBoxAvatar} className="popup-box" id="popup-box-avatar">
                                 <div className="popup-box-header">
                                     <FontAwesomeIcon icon={faUserTie}/>
@@ -423,9 +493,7 @@ const UserManagement = () => {
                                     <p>Upload your personalized photo.</p>
                                 </div>
                                 <div className="popup-box-body">
-                                    <label for="first-name">Avatar</label>
-                                    <input type="url" name="url-avatar" placeholder="Insert your avatar link here"/>
-                                    <label for="last-name">Or upload your photo</label>
+                                    <label for="upload-avatar">Upload your photo</label>
                                     <input id="ImageBrowse upload-avatar" style={{width:'fit-content', height:'min-content', important: true}} type="file" name="upload-avatar" accept="image/png, image/jpeg"/>
                                 </div>
                                 <div className="popup-box-footer">

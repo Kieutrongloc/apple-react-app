@@ -88,7 +88,7 @@ const Header = () => {
         if (localStorage.getItem("user") === null) {
             showCart.current.style.display = 'none'
         } else { if (JSON.parse(localStorage.getItem('user')).avatar_link!=='') {
-            showCart.current.querySelector('.nav-icons').querySelector('#user-avatar').src=JSON.parse(localStorage.getItem('user')).avatar_link
+            showCart.current.querySelector('.nav-icons').querySelector('#user-avatar').src="http://localhost/www/AppleStore/Backend/"+JSON.parse(localStorage.getItem('user')).avatar_link
         }}
     }, [])
 

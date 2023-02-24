@@ -40,7 +40,6 @@ const Signin = () => {
                 } if (response && response.msg == 'ok'){
                     localStorage.setItem("user", JSON.stringify(response.user));
                     window.location.href="http://localhost:3000/";
-                    // navigate('/');
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {

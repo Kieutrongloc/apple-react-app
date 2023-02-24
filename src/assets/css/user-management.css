@@ -151,8 +151,8 @@ article div .signin-body, .personal-body {
     width: 1000px;
     z-index: 1;
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 40%;
+    left: 55%;
     transform: translate(-50%, -50%);
 }
 
