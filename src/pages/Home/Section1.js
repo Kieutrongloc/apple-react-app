@@ -17,35 +17,35 @@ const Section1 = () => {
     return (
         <>
         <section>
-        <div class="section-intro">
-            <div class="section-nav-row">
-                <h1 class="header-content"><span class="header-main">Store.</span> <span class="header-details">The best way to buy the <br></br> products you love.</span></h1>
-                <div class="nav-row-chat">
-                    <div class="nav-row-chat-section">
-                        <img class="nav-row-chat-section-img" src={chatSupportIcon} alt="Support chat"/>
+        <div className="section-intro">
+            <div className="section-nav-row">
+                <h1 className="header-content"><span className="header-main">Store.</span> <span className="header-details">The best way to buy the <br></br> products you love.</span></h1>
+                <div className="nav-row-chat">
+                    <div className="nav-row-chat-section">
+                        <img className="nav-row-chat-section-img" src={chatSupportIcon} alt="Support chat"/>
                         <div>
-                            <p class="nav-row-chat-title nav-row-chat-content">Need shopping help</p>
-                            <a class="nav-row-chat-link none-address-style nav-row-chat-content" href="">Ask a Specialist</a>
+                            <p className="nav-row-chat-title nav-row-chat-content">Need shopping help</p>
+                            <a className="nav-row-chat-link none-address-style nav-row-chat-content" href="">Ask a Specialist</a>
                         </div>
                     </div>
-                    <div class="nav-row-chat-section">
-                        <img class="nav-row-chat-section-img" src={appleStoreIcon} alt="chat-support"/>
+                    <div className="nav-row-chat-section">
+                        <img className="nav-row-chat-section-img" src={appleStoreIcon} alt="chat-support"/>
                         <div>
-                            <p class="nav-row-chat-title nav-row-chat-content">Visit an Apple Store</p>
-                            <a class="nav-row-chat-link none-address-style nav-row-chat-content" href="">Find one near you {'>'} </a>
+                            <p className="nav-row-chat-title nav-row-chat-content">Visit an Apple Store</p>
+                            <a className="nav-row-chat-link none-address-style nav-row-chat-content" href="">Find one near you {'>'} </a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div>
-                <div class="section-nav-devices-list overflow-hidden">
+                <div className="section-nav-devices-list overflow-hidden">
                     {productList.map(product => 
-                    <div key={product.id}  class="devices-list-items">
-                        <div class="items-detail">
+                    <div key={product.id}  className="devices-list-items">
+                        <div className="items-detail">
                             <Link to=''>
-                                <img src={product.imgLink} alt="" class="device-photo"/>
-                                <p class="device-name hover-underline none-address-style">{product.title}</p>
+                                <img src={product.imgLink} alt="" className="device-photo"/>
+                                <p className="device-name hover-underline none-address-style">{product.title}</p>
                             </Link>
                         </div>
                     </div>)}

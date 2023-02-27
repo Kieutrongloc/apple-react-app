@@ -6,6 +6,14 @@ import { faAppleAlt, faKey, faUserShield, faUser, faUserGroup, faPersonWalkingDa
 import $ from 'jquery';
 
 const UserManagement = () => {
+
+    // Direct home if user is not logged in
+    const directHome = () => {
+        if (localStorage.getItem('user') == null) {
+        window.location.href = 'http://localhost:3000/signin';
+    }};
+    directHome();
+
     const API_URL = "http://localhost/www/AppleStore/Backend/";
     const appleAccount = {
         'get': API_URL + 'sign-in/user-account-get.php',
@@ -17,6 +25,7 @@ const UserManagement = () => {
         window.localStorage.removeItem('user')
         window.location.href="/"
     }
+
 
     const userDb = JSON.parse(window.localStorage.getItem('user'))
     const signInBody = [
@@ -225,66 +234,37 @@ const UserManagement = () => {
         });
     }
 
-    //Update avatar
+    // Update avatar
     const updateAVatar = (event) => {
-        // event.preventDefault();
-        // var formData = new FormData(this);
-        // var user = localStorage.getItem('user');
-        // if(user){
-        //   user = JSON.parse(user);
-        //   formData.append('user_id', user.id);
-        // }
-
-        // $.ajax({
-        //     type:'POST',
-        //     url: API_URL + '/user-management/user-management.php',
-        //     data:formData,
-        //     cache:false,
-        //     contentType: false,
-        //     processData: false,
-        //     success:function(response){
-        //         if (response.msg == 'ERRORNESTED') {
-        //             alert('Please check again!')
-        //         } else {
-        //             alert("Updated successful!");
-        //             // localStorage.setItem("user", JSON.stringify(response));
-        //             console.log(JSON.parse(response));
-        //         }
-        //     },
-        //     error: function(data){
-        //         console.log("error");
-        //         console.log(data);
-        //     }
-        // });
-    }
-
-    $('#imageUploadForm').on('submit',(function(e) {
-        e.preventDefault();
-        var formData = new FormData(this);
+        event.preventDefault();
+        var formData = new FormData(event.target);
         var user = localStorage.getItem('user');
         if(user){
-            user = JSON.parse(user);
-            formData.append('user_id', user.id);
+          user = JSON.parse(user);
+          formData.append('user_id', user.id);
         }
-    
+
         $.ajax({
             type:'POST',
-            url: API_URL + '/user-management/user-management.php',
-            data:formData,
+            url: API_URL + 'user-management/user-management.php',
+            data: formData,
             cache:false,
             contentType: false,
             processData: false,
-            success:function(data){
-                alert("Updated successful!");
-                localStorage.setItem("user", JSON.stringify(JSON.parse(data)));
-                console.log(JSON.parse(data));
+            success:function(response){
+                if (response.msg == 'ERRORNESTED') {
+                    alert('Please check again!')
+                } else {
+                    alert("Updated successful!");
+                    localStorage.setItem("user", JSON.stringify(JSON.parse(response)));
+                }
             },
             error: function(data){
                 console.log("error");
                 console.log(data);
             }
         });
-    }));
+    }
 
     //Update country
     const updateCountry = (event) => {
@@ -339,19 +319,19 @@ const UserManagement = () => {
     const closeBox = (event) => {
         event.target.parentElement.parentElement.style.display='none'
     }
-
+    
     return (
         <>
             <div className="section-header">
                 <div className="section-header-nav">
                     <h2 style={{fontWeight: 'lighter'}}>Apple ID</h2>
-                    <div class="header-nav-item">
-                        <Link onClick={signOut} style={{color:'#666'}} class="none-address-style" href="">Sign Out</Link>
+                    <div className="header-nav-item">
+                        <Link onClick={signOut} style={{color:'#666'}} className="none-address-style" href="">Sign Out</Link>
                     </div>
                 </div>
             </div>
 
-            <content>
+            <div id="content">
                 <aside id="aside">
                     <div>
                         <div id="aside-user-info">
@@ -378,12 +358,12 @@ const UserManagement = () => {
                         </div>
                         <div className="signin-body">
                             {signInBody.map(item =>
-                                <div key={item.id} onClick={item.onclick} class="body-box">
-                                    <div class="box-left">
+                                <div key={item.id} onClick={item.onclick} className="body-box">
+                                    <div className="box-left">
                                         <p>{item.ptitle}</p>
-                                        <p class="user-email">{item.psub}</p>
+                                        <p className="user-email">{item.psub}</p>
                                     </div>
-                                    <div class="box-right">
+                                    <div className="box-right">
                                         <FontAwesomeIcon className="fa-brands fa-apple" icon={item.icon}/>
                                     </div>
                                 </div>
@@ -398,12 +378,12 @@ const UserManagement = () => {
                         </div>
                         <div className="personal-body">
                             {personalBody.map(item =>
-                                <div key={item.id} onClick={item.onclick} class="body-box">
-                                    <div class="box-left">
+                                <div key={item.id} onClick={item.onclick} className="body-box">
+                                    <div className="box-left">
                                         <p>{item.ptitle}</p>
-                                        <p class={item.classname}>{item.psub}</p>
+                                        <p className={item.classname}>{item.psub}</p>
                                     </div>
-                                    <div class="box-right">
+                                    <div className="box-right">
                                         <FontAwesomeIcon icon={item.icon}/>
                                     </div>
                                 </div>
@@ -419,7 +399,7 @@ const UserManagement = () => {
                                 <p>Your Apple ID is used to access all Apple products and services</p>
                             </div>
                             <div className="popup-box-body">
-                                <label for="appleid">Change your Apple ID</label>
+                                <label htmlFor="appleid">Change your Apple ID</label>
                                 <input type="email" name="appleid" placeholder="New Apple ID"/>
                                 <p>Enter a new email address to use as your Apple ID. A verification code will be sent to this address.</p>
                             </div>
@@ -436,14 +416,14 @@ const UserManagement = () => {
                                 <p>Update your new password</p>
                             </div>
                             <div style={{display:'flex'}} className="popup-box-body">
-                                <label for="newpassword">Change your password</label>
+                                <label htmlFor="newpassword">Change your password</label>
                                 <input type="password" name="current-password" placeholder="Current password"/>
                                 <input id="password" type="password" name="new-password" placeholder="New password"/>
                                 <input id="confirm_password" type="password" name="confirm-new-password" placeholder="Confirm new password"/>
                                 <span ref={alertMessage} style={{fontSize: '14px', position:'absolute', marginTop:'158px', color:'red'}} id='message'></span>
                                 <div style={{marginTop:'20px'}}>
                                     <input style={{width:'min-content',height:'min-content', important: true}} type="checkbox" name="sign-out-all" value="checked" defaultChecked/>
-                                    <label for="sign-out-all">Sign out of Apple devices and websites associated with your Apple ID. Learn more</label><br></br>
+                                    <label htmlFor="sign-out-all">Sign out of Apple devices and websites associated with your Apple ID. Learn more</label><br></br>
                                 </div>
                             </div>
                             <div className="popup-box-footer">
@@ -458,9 +438,9 @@ const UserManagement = () => {
                                 <p className="user-name">Name</p>
                             </div>
                             <div className="popup-box-body">
-                                <label for="first-name">First name</label>
+                                <label htmlFor="first-name">First name</label>
                                 <input id="first-name" onChange={handleInputChange} type="text" pattern="[A-Za-z]+" name="first-name" placeholder=""/>
-                                <label for="last-name">Last name</label>
+                                <label htmlFor="last-name">Last name</label>
                                 <input id="last-name" onChange={handleInputChange} type="text" pattern="[A-Za-z]+" name="last-name" placeholder=""/>
                             </div>
                             <div className="popup-box-footer">
@@ -476,7 +456,7 @@ const UserManagement = () => {
                                 <p>Your birth date is required to determine eligible services.</p>
                             </div>
                             <div className="popup-box-body">
-                                <label for="first-name">Birthday</label>
+                                <label htmlFor="first-name">Birthday</label>
                                 <input id="datepicker" type="text" name="birthday" placeholder="DD/MM/YYYY"/>
                             </div>
                             <div className="popup-box-footer">
@@ -485,7 +465,7 @@ const UserManagement = () => {
                             </div>
                         </div>
 
-                        <form onSubmit={updateAVatar} id="imageUploadForm" encType="multipart/form-data" method="post">
+                        <form onSubmit={(event)=> updateAVatar(event)} id="imageUploadForm" encType="multipart/form-data" method="post">
                             <div ref={popupBoxAvatar} className="popup-box" id="popup-box-avatar">
                                 <div className="popup-box-header">
                                     <FontAwesomeIcon icon={faUserTie}/>
@@ -493,7 +473,7 @@ const UserManagement = () => {
                                     <p>Upload your personalized photo.</p>
                                 </div>
                                 <div className="popup-box-body">
-                                    <label for="upload-avatar">Upload your photo</label>
+                                    <label htmlFor="upload-avatar">Upload your photo</label>
                                     <input id="ImageBrowse upload-avatar" style={{width:'fit-content', height:'min-content', important: true}} type="file" name="upload-avatar" accept="image/png, image/jpeg"/>
                                 </div>
                                 <div className="popup-box-footer">
@@ -528,7 +508,7 @@ const UserManagement = () => {
                                 <p>Adding contact information helps friends and family reach you using iMessage, FaceTime, Game Center, and more.</p>
                             </div>
                             <div className="popup-box-body">
-                                <label for="phone-number">Update your phone number</label>
+                                <label htmlFor="phone-number">Update your phone number</label>
                                 <input onChange={handleInputChangeNumber} id="user-phonenumber" type="tel" name="phone-number" placeholder=""/>
                             </div>
                             <div className="popup-box-footer">
@@ -539,7 +519,7 @@ const UserManagement = () => {
 
                     </div>
                 </article>
-            </content>
+            </div>
 
         </>
     )

@@ -8,15 +8,15 @@ const Section7 = () => {
     ]
     return (
         <>
-            <div class="main-sixth-services">
-            <h2 class="main-header">The Apple experience. <span class="header-details">Do even more with Apple products and services.</span></h2>
-            <div class="sixth-services-nav overflow-hidden">
+            <div className="main-sixth-services">
+            <h2 className="main-header">The Apple experience. <span className="header-details">Do even more with Apple products and services.</span></h2>
+            <div className="sixth-services-nav overflow-hidden">
                 {appleService.map(service =>
-                    <Link key={service.id} to='/' class="sixth-services-nav-item hover-style">
-                        <p class="sixth-services-status">{service.status}</p>
-                        <h3 class="sixth-services-nav-item-header">{service.header}</h3>
-                        <p class="sixth-services-nav-item-detail">{service.detail}</p>
-                        <img src={service.img} alt="" class="sixth-services-nav-item-img-larger border-radius-shadow"/>
+                    <Link key={service.id} to='/' className="sixth-services-nav-item hover-style">
+                        <p className="sixth-services-status">{service.status}</p>
+                        <h3 className="sixth-services-nav-item-header">{service.header}</h3>
+                        <p className="sixth-services-nav-item-detail">{service.detail}</p>
+                        <img src={service.img} alt="" className="sixth-services-nav-item-img-larger border-radius-shadow"/>
                     </Link>
                 )}
             </div>

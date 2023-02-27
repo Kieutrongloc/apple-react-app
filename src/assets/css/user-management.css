@@ -26,7 +26,7 @@
 }
 /* <!-- SECTION --> */
 
-content {
+#content {
     display: flex;
     margin-left: auto;
     margin-right: auto;

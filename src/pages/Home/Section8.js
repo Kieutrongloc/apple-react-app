@@ -9,18 +9,18 @@ const Section8 = () => {
     ]
     return (
         <>
-            <div class="main-eighth-special-stores">
-            <h2 class="main-header">Special Stores. <span class="header-details">Exclusive savings for businesses, school, and more.</span></h2>
-            <div class="main-special-stores-nav overflow-hidden">
+            <div className="main-eighth-special-stores">
+            <h2 className="main-header">Special Stores. <span className="header-details">Exclusive savings for businesses, school, and more.</span></h2>
+            <div className="main-special-stores-nav overflow-hidden">
                 {specialStore.map(item =>
-                <Link key={item.id} to='/' class="main-special-stores-nav-item hover-style">
-                    <p class="main-special-stores-status">{item.for}</p>
+                <Link key={item.id} to='/' className="main-special-stores-nav-item hover-style">
+                    <p className="main-special-stores-status">{item.for}</p>
                     {item.for=='BUSINESS'?
-                    <h3 class="main-special-stores-nav-item-header item-header-white">{item.header}<span class="small-upper-word">1</span></h3>
+                    <h3 className="main-special-stores-nav-item-header item-header-white">{item.header}<span className="small-upper-word">1</span></h3>
                     :
-                    <h3 class="main-special-stores-nav-item-header">{item.header}<span class="small-upper-word">1</span></h3>
+                    <h3 className="main-special-stores-nav-item-header">{item.header}<span className="small-upper-word">1</span></h3>
                     }
-                    <img src={item.img} alt="" class="main-special-stores-nav-item-img-larger border-radius-shadow"/>
+                    <img src={item.img} alt="" className="main-special-stores-nav-item-img-larger border-radius-shadow"/>
                 </Link>
                 )}
             </div>

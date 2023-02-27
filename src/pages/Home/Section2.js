@@ -13,26 +13,26 @@ const Section2 = () => {
     ]
     return (
         <>
-        <div class="main-first-top-devices">
-            <h2 class="main-header"><span>The latest. </span> <span class="header-details">Take a look at what's new, right now</span></h2>
-            <div class="top-devices-intro-content overflow-hidden">
+        <div className="main-first-top-devices">
+            <h2 className="main-header"><span>The latest. </span> <span className="header-details">Take a look at what's new, right now</span></h2>
+            <div className="top-devices-intro-content overflow-hidden">
                 {topDevices.map(device =>
-                <Link key={device.id} class="top-devices-intro-items hover-style" to=''>
+                <Link key={device.id} className="top-devices-intro-items hover-style" to=''>
                     {device.background=='black'
                     ?
-                    <div class="intro-items-info">
-                        <p class="items-info-name">{device.name}</p>
-                        <p class="items-info-features">{device.feature}</p>
-                        <p class="items-info-price">{device.price}</p>
+                    <div className="intro-items-info">
+                        <p className="items-info-name">{device.name}</p>
+                        <p className="items-info-features">{device.feature}</p>
+                        <p className="items-info-price">{device.price}</p>
                     </div>
                     :
-                    <div class="intro-items-info text-black-reflect">
-                        <p class="items-info-name">{device.name}</p>
-                        <p class="items-info-features">{device.feature}</p>
-                        <p class="items-info-price">{device.price}</p>
+                    <div className="intro-items-info text-black-reflect">
+                        <p className="items-info-name">{device.name}</p>
+                        <p className="items-info-features">{device.feature}</p>
+                        <p className="items-info-price">{device.price}</p>
                     </div>
                     }
-                <img class="intro-items-img border-radius-shadow" src={device.img} alt=""/>
+                <img className="intro-items-img border-radius-shadow" src={device.img} alt=""/>
                 </Link>
                 )}
             </div>

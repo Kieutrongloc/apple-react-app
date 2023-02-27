@@ -74,11 +74,11 @@ const Header = () => {
     const checkoutList = 
     localStorage.getItem("user") !== null 
     ? [
-    {id: 1, icon: faSuitcase, title:'Bag' +' ('+ cartTotalItem +')', link: ''},
+    {id: 1, icon: faSuitcase, title:'Bag' +' ('+ cartTotalItem +')', link: '/cart'},
     {id: 2, icon: faTag, title:'Saved Item', link: ''},
     {id: 3, icon: faBox, title:'Orders', link: ''},
     {id: 4, icon: faGear, title:'Manage Products', link: ''},
-    {id: 5, icon: faUser, title: JSON.parse(window.localStorage.getItem('user')).first_name + ' ' + JSON.parse(window.localStorage.getItem('user')).last_name, link: 'http://localhost:3000/user-management'},
+    {id: 5, icon: faUser, title: JSON.parse(window.localStorage.getItem('user')).first_name + ' ' + JSON.parse(window.localStorage.getItem('user')).last_name, link: '/user-management'},
     {id: 6, icon: faSignOut, title:'Log out', link: '', onclick: signOut}] : [];
     
     // Show cart/checkoutlist if user is logged in 
@@ -158,13 +158,13 @@ const Header = () => {
                             <div className="cart-checkout-table">
                                 {cartItems.map((item) =>
                                 <div key={item.id} style={{display: 'flex', justifyContent: 'space-between', paddingBottom: '10px'}} className="subnav-item-list">
-                                    <img src={item.image} alt="" class="checkout-item-img"></img>
+                                    <img src={item.image} alt="" className="checkout-item-img"></img>
                                     <div className="cart-checkout-item-list">
                                         <div style={{display: 'flex'}}>
                                             <p style={{color:'black' }}className="checkout-item-name">{item.name}</p>
                                         </div>
                                         <div style={{display: 'flex',justifyContent: 'space-between'}}>
-                                            <input onChange={(event) => updateQuantity(event, item.id)} style={{maxWidth: '40px'}} type="number" defaultValue={item.quantity} min={1} class="checkout-item-qtt"></input>
+                                            <input onChange={(event) => updateQuantity(event, item.id)} style={{maxWidth: '40px'}} type="number" defaultValue={item.quantity} min={1} className="checkout-item-qtt"></input>
                                             <p style={{color:'black'}} className="checkout-item-price"><span>$</span><span className="checkout-item-pricenumber">{Number(item.price)*Number(item.quantity)}</span></p>
                                         </div>
                                     </div>

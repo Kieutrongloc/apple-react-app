@@ -42,17 +42,17 @@ const Section5 = ({productsLoudandclear}) => {
 
     return (
         <>
-        <div class="main-fifth-additional-devices">
-            <h2 class="main-header">Loud and clear. <span class="header-details">Upararelled choices for rich, high-quality sound.</span></h2>
+        <div className="main-fifth-additional-devices">
+            <h2 className="main-header">Loud and clear. <span className="header-details">Upararelled choices for rich, high-quality sound.</span></h2>
             <div className="fourth-accessories-nav overflow-hidden main-fourth-carousel">
 
-                <div class="fifth-additional-devices-nav overflow-hidden">
-                    <div href="" class="additional-devices-nav-item-main hover-style">
-                        <div class="devices-nav-item-text-box-main">
-                            <h4 class="devices-nav-item-header">Get 6 months of Apple Music free.</h4>
-                            <p class="devices-nav-item-detail">Included with purchase of select Airpods and Beats products, and HomePds mini.**</p>
+                <div className="fifth-additional-devices-nav overflow-hidden">
+                    <div href="" className="additional-devices-nav-item-main hover-style">
+                        <div className="devices-nav-item-text-box-main">
+                            <h4 className="devices-nav-item-header">Get 6 months of Apple Music free.</h4>
+                            <p className="devices-nav-item-detail">Included with purchase of select Airpods and Beats products, and HomePds mini.**</p>
                         </div>
-                        <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-40-applemusic-202112?wid=400&hei=500&fmt=p-jpg&qlt=95&.v=1638212879000" alt="" class="additional-devices-nav-item-img-larger border-radius-shadow"/>
+                        <img src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/store-card-40-applemusic-202112?wid=400&hei=500&fmt=p-jpg&qlt=95&.v=1638212879000" alt="" className="additional-devices-nav-item-img-larger border-radius-shadow"/>
                     </div>
                 </div>
 
