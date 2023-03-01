@@ -77,7 +77,7 @@ const Cart = () => {
                     <p>Products</p>
                     <p className="title-bar">Price</p>
                     <p className="title-bar">Quantity</p>
-                    <p className="title-bar">Price</p>
+                    <p className="title-bar">Total</p>
                     <p className="title-bar">Action</p>
                 </div>
 
@@ -89,7 +89,7 @@ const Cart = () => {
                             <p>{item.name}</p>
                         </div>
                         <p>${item.price}.00</p>
-                        <p>{item.quantity}</p>
+                        <input type={'number'} defaultValue={item.quantity} min={1}></input>
                         <p>${Number(item.price)*Number(item.quantity)}.00</p>
                         <button>Remove</button>
                     </div>
@@ -102,7 +102,7 @@ const Cart = () => {
                     </div>
                     <div id="checkout-right">
                         <p>Total cart: ${cartTotalPrice}.00</p>
-                        <button>Checkout</button>
+                        <button>Check out</button>
                     </div>
                 </div>
             </div>
