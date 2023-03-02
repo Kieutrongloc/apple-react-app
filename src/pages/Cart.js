@@ -61,6 +61,14 @@ const Cart = () => {
     //     console.log(filteredItems)
     // }
 
+//     Cart
+// FilteredCart
+
+// {Cart!==null&&filtered==null?render Cart:
+// cart!==null&&filtered!==null?render filtered:
+// cart==null? render nothing in cart:filter==null&&render nothing in filter
+// }
+
 
     // Calculate total item in the cart:
     var cartTotalItem;
