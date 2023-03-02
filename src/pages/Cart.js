@@ -33,12 +33,34 @@ const Cart = () => {
                     setCart(result);
                 },
                 (error) => {
-                    // console.log(error);
+                    console.log(error);
                 }
             )
         }
         getCart()
     }, [])
+
+
+    //Filtered cart when click search
+    const [inputSearch, setInputSearch] = useState('');
+    const [filteredCart, setFilteredCart] = useState([]);
+    const submitSearch = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const searchItem = formData.get('search-item');
+    setInputSearch(searchItem);
+    const filteredItems = Cart.filter(item => item.name.toLowerCase().includes(searchItem.toLowerCase()));
+    setFilteredCart(filteredItems);
+    }
+    console.log(filteredCart)
+    // const submitSearch = (event) => {
+    //     event.preventDefault();
+    //     const formData = new FormData(event.target);
+    //     const searchItem = formData.get('search-item');
+    //     const filteredItems = Cart.filter(item => item.name.toLowerCase().includes(searchItem.toLowerCase()));
+    //     console.log(filteredItems)
+    // }
+
 
     // Calculate total item in the cart:
     var cartTotalItem;
@@ -52,6 +74,8 @@ const Cart = () => {
         );
     }
     totalCart();
+
+
 
     return (
         <>
@@ -67,9 +91,11 @@ const Cart = () => {
             </div>
 
             <div id="cart-body">
-                <form>
+                <form onSubmit={(event)=> submitSearch(event)}>
                     <input type={'text'} name={'search-item'} placeholder={'Enter your item to search...'} ></input>
-                    <FontAwesomeIcon icon={faSearch} id="fa-search"/>
+                    <button type="submit" name={'submit-search'}>
+                        <FontAwesomeIcon icon={faSearch} id="fa-search"/>
+                    </button>
                 </form>
 
                 <div id="body-title">
@@ -81,8 +107,12 @@ const Cart = () => {
                     <p className="title-bar">Action</p>
                 </div>
 
+                {/* {filteredCart.length==0
+                ?<p>No product matched in your cart</p>
+                :
+                 */}
                 {Cart.map((item) => 
-                    <div id="body-content">
+                    <div key={item.id} id="body-content">
                         <input type={'checkbox'} name={'check-item'}></input>
                         <div id="content-item">
                             <img src={item.image}></img>
@@ -94,6 +124,8 @@ const Cart = () => {
                         <button>Remove</button>
                     </div>
                 )}
+
+                
 
                 <div id="body-checkout">
                     <div id="checkout-left">

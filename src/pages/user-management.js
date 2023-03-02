@@ -239,6 +239,7 @@ const UserManagement = () => {
         event.preventDefault();
         var formData = new FormData(event.target);
         var user = localStorage.getItem('user');
+        return;
         if(user){
           user = JSON.parse(user);
           formData.append('user_id', user.id);
@@ -256,7 +257,7 @@ const UserManagement = () => {
                     alert('Please check again!')
                 } else {
                     alert("Updated successful!");
-                    localStorage.setItem("user", JSON.stringify(JSON.parse(response)));
+                    localStorage.setItem("user", JSON.stringify(JSON.parse(response))); closeBox(event); window.location.reload()
                 }
             },
             error: function(data){

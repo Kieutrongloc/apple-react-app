@@ -17,6 +17,10 @@
     padding: 0px 10px;
 }
 
+#cart-body form button {
+    border: none;
+}
+
 #cart-body form #fa-search {
     height: 26px;
     padding: 7px 40px;
