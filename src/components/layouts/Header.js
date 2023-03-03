@@ -23,11 +23,10 @@ const Header = () => {
             .then(res => res.json())
             .then(
               (result) => {
-                // console.log(result);
-                setCartItems(result);
+                setCartItems(result.reverse());
               },
               (error) => {
-                // console.log(error);
+                console.log(error);
               }
             )
         };

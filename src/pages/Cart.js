@@ -30,7 +30,7 @@ const Cart = () => {
             .then(res => res.json())
             .then(
                 (result) => {
-                    setCart(result);
+                    setCart(result.reverse());
                 },
                 (error) => {
                     console.log(error);
@@ -43,7 +43,7 @@ const Cart = () => {
 
     //Filtered cart when click search
     const [inputSearch, setInputSearch] = useState('');
-    const [filteredCart, setFilteredCart] = useState([]);
+    const [filteredCart, setFilteredCart] = useState(null);
     const submitSearch = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -52,23 +52,29 @@ const Cart = () => {
     const filteredItems = Cart.filter(item => item.name.toLowerCase().includes(searchItem.toLowerCase()));
     setFilteredCart(filteredItems);
     }
-    console.log(filteredCart)
-    // const submitSearch = (event) => {
-    //     event.preventDefault();
-    //     const formData = new FormData(event.target);
-    //     const searchItem = formData.get('search-item');
-    //     const filteredItems = Cart.filter(item => item.name.toLowerCase().includes(searchItem.toLowerCase()));
-    //     console.log(filteredItems)
-    // }
 
-//     Cart
-// FilteredCart
+    // Handle check all input
+    const [isChecked, setIsChecked] = useState(false);
+    const [isCheckedAll, setIsCheckedAll] = useState(false);
+    
+    const handleCheckAll = (event) => {
+        setIsCheckedAll(!isCheckedAll);
+        const checkboxes = event.target.parentElement.parentElement.parentElement.querySelectorAll('#body-content input[type="checkbox"]');
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = !isCheckedAll;
+        });
+        setIsChecked(!isCheckedAll);
+    }; 
+    console.log(isCheckedAll, isChecked)
 
-// {Cart!==null&&filtered==null?render Cart:
-// cart!==null&&filtered!==null?render filtered:
-// cart==null? render nothing in cart:filter==null&&render nothing in filter
-// }
-
+    // Handle check single item
+    const [isCheckedItem, setIsCheckedItem] = useState(false);
+    const checkProduct = (event) => {
+        const checkbox = event.target;
+        checkbox.checked = !isCheckedItem;
+        setIsCheckedItem(!isCheckedItem);
+    }
+    console.log(isCheckedItem);
 
     // Calculate total item in the cart:
     var cartTotalItem;
@@ -83,7 +89,7 @@ const Cart = () => {
     }
     totalCart();
 
-
+   
 
     return (
         <>
@@ -115,30 +121,44 @@ const Cart = () => {
                     <p className="title-bar">Action</p>
                 </div>
 
-                {/* {filteredCart.length==0
-                ?<p>No product matched in your cart</p>
-                :
-                 */}
-                {Cart.map((item) => 
-                    <div key={item.id} id="body-content">
-                        <input type={'checkbox'} name={'check-item'}></input>
-                        <div id="content-item">
-                            <img src={item.image}></img>
-                            <p>{item.name}</p>
-                        </div>
-                        <p>${item.price}.00</p>
-                        <input type={'number'} defaultValue={item.quantity} min={1}></input>
-                        <p>${Number(item.price)*Number(item.quantity)}.00</p>
-                        <button>Remove</button>
+                {Cart.length!==0 && filteredCart===null ?
+                Cart.map((item) => 
+                <div key={item.id} id="body-content">
+                    <input type={'checkbox'} defaultChecked={isCheckedAll} onChange={checkProduct} name={'check-item'}></input>
+                    <div id="content-item">
+                        <img src={item.image}></img>
+                        <p>{item.name}</p>
                     </div>
-                )}
-
-                
+                    <p>${item.price}.00</p>
+                    <input type={'number'} defaultValue={item.quantity} min={1}></input>
+                    <p>${Number(item.price)*Number(item.quantity)}.00</p>
+                    <button>Remove</button>
+                </div>
+                ) :
+                Cart.length===0 && filteredCart===null ?
+                <div className="body-message"><p>Nothing in your cart</p></div> :
+                filteredCart!==null && filteredCart.length>0 ?
+                filteredCart.map((item) => 
+                <div key={item.id} id="body-content">
+                    <input type={'checkbox'} defaultChecked={isCheckedAll} onChange={checkProduct} name={'check-item'}></input>
+                    <div id="content-item">
+                        <img src={item.image}></img>
+                        <p>{item.name}</p>
+                    </div>
+                    <p>${item.price}.00</p>
+                    <input type={'number'} defaultValue={item.quantity} min={1}></input>
+                    <p>${Number(item.price)*Number(item.quantity)}.00</p>
+                    <button>Remove</button>
+                </div>
+                ) :
+                <div className="body-message"><p>No item matched your search</p></div>
+                }
 
                 <div id="body-checkout">
                     <div id="checkout-left">
-                        <input type={'checkbox'} name={'check-all'}></input>
-                        <label htmlFor="check-all">Select all the product: {cartTotalItem}</label>
+                        <input onChange={handleCheckAll} type={'checkbox'} name={'check-all'}></input>
+                        <label htmlFor="check-all">Select all the product</label>
+                        <p>{cartTotalItem} item(s)</p>
                     </div>
                     <div id="checkout-right">
                         <p>Total cart: ${cartTotalPrice}.00</p>
