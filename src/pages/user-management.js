@@ -239,7 +239,6 @@ const UserManagement = () => {
         event.preventDefault();
         var formData = new FormData(event.target);
         var user = localStorage.getItem('user');
-        return;
         if(user){
           user = JSON.parse(user);
           formData.append('user_id', user.id);

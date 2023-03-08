@@ -168,3 +168,11 @@
 #body-checkout #checkout-right p {
     font-weight: bolder;
 }
+
+#checkout-left p {
+    width: 100px;
+}
+
+#checkout-right p {
+    width: 170px;
+}

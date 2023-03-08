@@ -40,19 +40,30 @@ const Header = () => {
         window.location.href="/"
     }
 
-        // Calculate total item in the cart:
-        var cartTotalItem;
-        var cartTotalPrice;
-        const totalCart = () => {
-            cartTotalItem = cartItems.reduce(
-                (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity),0
-            );
-            cartTotalPrice = cartItems.reduce(
-                (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity*currentValue.price),0
-            );
-        }
-        totalCart()
+    // Calculate total item in the cart:
+    var cartTotalItem;
+    var cartTotalPrice;
+    const totalCart = () => {
+        cartTotalItem = cartItems.reduce(
+            (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity),0
+        );
+        cartTotalPrice = cartItems.reduce(
+            (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity*currentValue.price),0
+        );
+    }
+    totalCart()
     
+    //Show cart/checkoutlist on click
+    const showSubnav = () => {
+        const cart = document.querySelector("#subnav-cart-checkout");
+        if (cart.style.display === "block") {
+            cart.style.display = "none";
+        } else {
+            cart.style.display = "block";
+        }
+        }
+
+
     // Header navigation array 
     const headerNav = [
     {id: 1, title:'Store', link: ''},
@@ -73,11 +84,11 @@ const Header = () => {
     const checkoutList = 
     localStorage.getItem("user") !== null 
     ? [
-    {id: 1, icon: faSuitcase, title:'Bag' +' ('+ cartTotalItem +')', link: '/cart'},
+    {id: 1, icon: faSuitcase, title:'Bag' +' ('+ cartTotalItem +')', link: '/cart', onclick: showSubnav},
     {id: 2, icon: faTag, title:'Saved Item', link: ''},
     {id: 3, icon: faBox, title:'Orders', link: ''},
     {id: 4, icon: faGear, title:'Manage Products', link: ''},
-    {id: 5, icon: faUser, title: JSON.parse(window.localStorage.getItem('user')).first_name + ' ' + JSON.parse(window.localStorage.getItem('user')).last_name, link: '/user-management'},
+    {id: 5, icon: faUser, title: JSON.parse(window.localStorage.getItem('user')).first_name + ' ' + JSON.parse(window.localStorage.getItem('user')).last_name, link: '/user-management', onclick: showSubnav},
     {id: 6, icon: faSignOut, title:'Log out', link: '', onclick: signOut}] : [];
     
     // Show cart/checkoutlist if user is logged in 
@@ -91,15 +102,6 @@ const Header = () => {
         }}
     }, [])
 
-    //Show cart/checkoutlist on click
-    const showSubnav = () => {
-        const cart = document.querySelector("#subnav-cart-checkout");
-        if (cart.style.display === "block") {
-            cart.style.display = "none";
-        } else {
-            cart.style.display = "block";
-        }
-        }
     
     //Remove item from cart on click
     const removeItem = (id) => {

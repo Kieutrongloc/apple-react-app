@@ -8,10 +8,20 @@ import '../assets/css/cart.css';
 // import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
-    // Auto-direct to homepage if user is logged in already
+    const API_URL = "http://localhost/www/AppleStore/Backend/";
+    const cartAPI = {
+        'get': API_URL + 'cart/cart-get.php',
+        'save': API_URL + 'cart/cart-save.php',
+        'delete': API_URL + 'cart/cart-delete.php',
+        'update': API_URL + 'cart/cart-update.php',
+        // 'loudandclear': API_URL + 'accessories-manage/loudandclear-get.php',
+    }
+
+
+    // Auto-direct to signin if user is logged in already
     const directHome = () => {
         if (localStorage.getItem("user") === null) {
-            window.location.href="http://localhost:3000/";
+            window.location.href="http://localhost:3000/signin";
         }
     }
     directHome();
@@ -38,57 +48,127 @@ const Cart = () => {
             )
         }
         getCart()
+        window.getCart = getCart
     }, [])
 
 
     //Filtered cart when click search
-    const [inputSearch, setInputSearch] = useState('');
     const [filteredCart, setFilteredCart] = useState(null);
     const submitSearch = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const searchItem = formData.get('search-item');
-    setInputSearch(searchItem);
-    const filteredItems = Cart.filter(item => item.name.toLowerCase().includes(searchItem.toLowerCase()));
-    setFilteredCart(filteredItems);
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const searchItem = formData.get('search-item');
+        const filteredItems = Cart.filter(item => item.name.toLowerCase().includes(searchItem.toLowerCase()));
+        setFilteredCart(filteredItems);
     }
+
 
     // Handle check all input
     const [isChecked, setIsChecked] = useState(false);
     const [isCheckedAll, setIsCheckedAll] = useState(false);
+    const [selectedTotalPrice, setSelectedTotalPrice] = useState(0);
+    const [selectedTotalItem, setSelectedTotalItem] = useState(0);
     
     const handleCheckAll = (event) => {
         setIsCheckedAll(!isCheckedAll);
         const checkboxes = event.target.parentElement.parentElement.parentElement.querySelectorAll('#body-content input[type="checkbox"]');
+        console.log(checkboxes)
         checkboxes.forEach((checkbox) => {
             checkbox.checked = !isCheckedAll;
         });
-        setIsChecked(!isCheckedAll);
+        setIsChecked(!isChecked);
+        let newTotalPrice = 0;
+        let newTotalItem = 0;
+        {
+            Cart.length!==0 && filteredCart===null ?
+            Cart.forEach((item) => {
+                if (event.target.checked) {
+                    newTotalPrice += item.price * item.quantity;
+                    newTotalItem += Number(item.quantity)
+                }
+            })
+            :
+            filteredCart.forEach((item) => {
+                if (event.target.checked) {
+                    newTotalPrice += item.price * item.quantity;
+                    newTotalItem += Number(item.quantity)
+                }
+            })
+        };
+        setSelectedTotalPrice(newTotalPrice);
+        setSelectedTotalItem(newTotalItem);
     }; 
-    console.log(isCheckedAll, isChecked)
 
     // Handle check single item
     const [isCheckedItem, setIsCheckedItem] = useState(false);
     const checkProduct = (event) => {
         const checkbox = event.target;
-        checkbox.checked = !isCheckedItem;
-        setIsCheckedItem(!isCheckedItem);
+        {checkbox.checked?
+        setIsCheckedItem(!isCheckedItem) : setIsCheckedItem(isCheckedItem)
+        }
+        let newTotalPrice = selectedTotalPrice;
+        let newTotalItem = selectedTotalItem
+        let price = parseFloat(event.target.parentElement.querySelectorAll('p')[1].innerHTML.replace(/[^0-9.-]+/g,""))
+        let quantity = parseFloat(event.target.parentElement.querySelectorAll('input')[1].value.replace(/[^0-9.-]+/g,""))
+        if (event.target.checked) {
+            newTotalPrice += price*quantity;
+            newTotalItem += quantity
+        } else {
+            newTotalPrice -= price*quantity;
+            newTotalItem -= quantity
+        }
+        setSelectedTotalPrice(newTotalPrice);
+        setSelectedTotalItem(newTotalItem);
     }
-    console.log(isCheckedItem);
 
-    // Calculate total item in the cart:
-    var cartTotalItem;
-    var cartTotalPrice;
-    const totalCart = () => {
-        cartTotalItem = Cart.reduce(
-            (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity),0
-        );
-        cartTotalPrice = Cart.reduce(
-            (prevValue, currentValue) => prevValue + parseInt(currentValue.quantity*currentValue.price),0
-        );
+    //Remove item from cart on click
+    const removeItem = (id) => {
+        let userID = JSON.parse(window.localStorage.getItem('user')).id
+        var options = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        };
+        fetch(cartAPI.delete +'/?id=' + id + '&user_id=' + userID, options)
+            .then(function(cartresponse) {
+                cartresponse.json().then(function(data){
+                    // window.getCart(data)
+                })
+            })
+            .then(function() {
+            });
     }
-    totalCart();
 
+    //Update quantity at cart onchange:
+    const updateQuantity = (event, id) => {
+        var options = {
+            method: 'PATCH',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        };
+        fetch(cartAPI.update +'/?id=' + id +'&quantity=' + event.target.value, options)
+            .then(function(cartresponse) {
+                cartresponse.json().then(function(data){
+                    window.getCart()
+                    // const checkboxes = event.target.parentElement.parentElement.parentElement.querySelectorAll('#body-content input[type="checkbox"]');
+                    const checkboxes = document.getElementById('cart-body').querySelectorAll('#body-content input[type="checkbox"]')
+                    checkboxes.forEach((checkbox) => {
+                        if (checkbox.checked) {
+                            const price = checkbox.parentElement.getElementsByTagName('p')[1].innerHTML.replace(/[^0-9.-]+/g,"")
+                            console.log(price)
+                        } else {
+                            console.log('nothing')
+                        }
+
+                    });
+                })
+            })
+            .then(function() {
+        });
+    }
    
 
     return (
@@ -130,9 +210,9 @@ const Cart = () => {
                         <p>{item.name}</p>
                     </div>
                     <p>${item.price}.00</p>
-                    <input type={'number'} defaultValue={item.quantity} min={1}></input>
+                    <input type={'number'} onChange={(event)=>updateQuantity(event, item.id)} defaultValue={item.quantity} min={1}></input>
                     <p>${Number(item.price)*Number(item.quantity)}.00</p>
-                    <button>Remove</button>
+                    <button onClick={() => removeItem(item.id)}>Remove</button>
                 </div>
                 ) :
                 Cart.length===0 && filteredCart===null ?
@@ -146,9 +226,9 @@ const Cart = () => {
                         <p>{item.name}</p>
                     </div>
                     <p>${item.price}.00</p>
-                    <input type={'number'} defaultValue={item.quantity} min={1}></input>
+                    <input type={'number'} onChange={(event)=>updateQuantity(event, item.id)} defaultValue={item.quantity} min={1}></input>
                     <p>${Number(item.price)*Number(item.quantity)}.00</p>
-                    <button>Remove</button>
+                    <button onClick={() => removeItem(item.id)}>Remove</button>
                 </div>
                 ) :
                 <div className="body-message"><p>No item matched your search</p></div>
@@ -158,10 +238,10 @@ const Cart = () => {
                     <div id="checkout-left">
                         <input onChange={handleCheckAll} type={'checkbox'} name={'check-all'}></input>
                         <label htmlFor="check-all">Select all the product</label>
-                        <p>{cartTotalItem} item(s)</p>
+                        <p>{selectedTotalItem} item(s)</p>
                     </div>
                     <div id="checkout-right">
-                        <p>Total cart: ${cartTotalPrice}.00</p>
+                        <p>Total cart: ${selectedTotalPrice}.00</p>
                         <button>Check out</button>
                     </div>
                 </div>
