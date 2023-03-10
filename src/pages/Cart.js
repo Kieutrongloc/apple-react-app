@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 // import $ from 'jquery';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import '../assets/css/cart.css';
 // import { useNavigate } from 'react-router-dom';
 
@@ -66,8 +66,7 @@ const Cart = () => {
     // Handle check all input
     const [isChecked, setIsChecked] = useState(false);
     const [isCheckedAll, setIsCheckedAll] = useState(false);
-    const [selectedTotalPrice, setSelectedTotalPrice] = useState(0);
-    const [selectedTotalItem, setSelectedTotalItem] = useState(0);
+    
     
     const handleCheckAll = (event) => {
         setIsCheckedAll(!isCheckedAll);
@@ -76,6 +75,7 @@ const Cart = () => {
         checkboxes.forEach((checkbox) => {
             checkbox.checked = !isCheckedAll;
         });
+        return;
         setIsChecked(!isChecked);
         let newTotalPrice = 0;
         let newTotalItem = 0;
@@ -106,6 +106,7 @@ const Cart = () => {
         {checkbox.checked?
         setIsCheckedItem(!isCheckedItem) : setIsCheckedItem(isCheckedItem)
         }
+        return
         let newTotalPrice = selectedTotalPrice;
         let newTotalItem = selectedTotalItem
         let price = parseFloat(event.target.parentElement.querySelectorAll('p')[1].innerHTML.replace(/[^0-9.-]+/g,""))
@@ -139,6 +140,28 @@ const Cart = () => {
             .then(function() {
             });
     }
+
+    // Update total price and quantity of cart
+    const [selectedTotalPrice, setSelectedTotalPrice] = useState(0);
+    const [selectedTotalItem, setSelectedTotalItem] = useState(0);
+    const checkboxInputs = useRef(null)
+
+    const cartCalculate = () => {
+        console.log(checkboxInputs.current)
+        // setIsChecked(!isChecked);
+        // const checkboxes = document.getElementById('cart-body').querySelectorAll('#body-content input[type="checkbox"]')
+        // checkboxes.forEach((checkbox) => {
+        //     if (checkbox.checked === !isCheckedAll) {console.log('true')} else {console.log('false')};
+        // });
+        
+        let newTotalPrice = 0;
+        let newTotalItem = 0;
+    }
+    
+    useEffect(() => {
+        cartCalculate();
+    }, [])
+
 
     //Update quantity at cart onchange:
     const updateQuantity = (event, id) => {
@@ -204,7 +227,7 @@ const Cart = () => {
                 {Cart.length!==0 && filteredCart===null ?
                 Cart.map((item) => 
                 <div key={item.id} id="body-content">
-                    <input type={'checkbox'} defaultChecked={isCheckedAll} onChange={checkProduct} name={'check-item'}></input>
+                    <input ref={checkboxInputs} type={'checkbox'} defaultChecked={isCheckedAll} onChange={checkProduct} name={'check-item'}></input>
                     <div id="content-item">
                         <img src={item.image}></img>
                         <p>{item.name}</p>
@@ -220,7 +243,7 @@ const Cart = () => {
                 filteredCart!==null && filteredCart.length>0 ?
                 filteredCart.map((item) => 
                 <div key={item.id} id="body-content">
-                    <input type={'checkbox'} defaultChecked={isCheckedAll} onChange={checkProduct} name={'check-item'}></input>
+                    <input ref={checkboxInputs} type={'checkbox'} defaultChecked={isCheckedAll} onChange={checkProduct} name={'check-item'}></input>
                     <div id="content-item">
                         <img src={item.image}></img>
                         <p>{item.name}</p>
