@@ -115,8 +115,8 @@ const Cart = () => {
             newTotalPrice -= Number(productPrice.current[1].innerHTML.replace(/[^0-9.-]+/g,""))*productQuantity.current[1].value
         }
         setSelectedTotalPrice(newTotalPrice);
-        console.log(SelectedTotalPrice)
     })
+    // console.log(SelectedTotalPrice)
     const orderTotal = () => {
         
     }
