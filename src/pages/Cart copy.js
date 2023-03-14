@@ -108,7 +108,7 @@ const Cart = () => {
         }
         // return
         let newTotalPrice = selectedTotalPrice;
-        let newTotalItem = selectedTotalItem
+        let newTotalItem = selectedTotalItem;
         let price = parseFloat(event.target.parentElement.querySelectorAll('p')[1].innerHTML.replace(/[^0-9.-]+/g,""))
         let quantity = parseFloat(event.target.parentElement.querySelectorAll('input')[1].value.replace(/[^0-9.-]+/g,""))
         if (event.target.checked) {

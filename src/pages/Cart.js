@@ -95,11 +95,27 @@ const Cart = () => {
     const [selectedTotalItem, setSelectedTotalItem] = useState(0);
     const productPrice = useRef(0)
     const productQuantity = useRef(0)
+    // const productQuantity = orders.length!==0 && filteredOrders===null ? orders.map(() => useRef()) : filteredOrders!==null && filteredOrders.length>0 && filteredOrders.map(() => useRef())
+// 
 
     useEffect(()=>{
         const checkboxes = document.querySelectorAll('#body-content input[type="checkbox"]');
+        const price = document.querySelectorAll('#body-content #product-price');
+        const quantity = document.querySelectorAll('#body-content #product-quantity');
         checkboxInputs.current = checkboxes;
-        console.log(checkboxInputs.current[1])
+        productPrice.current = price;
+        productQuantity.current = quantity;
+        // console.log(Number(productPrice.current[1].innerHTML.replace(/[^0-9.-]+/g,"")))
+        // console.log((productQuantity.current[1].value))
+        let newTotalPrice = selectedTotalPrice;
+        let newTotalItem = selectedTotalItem;
+        if (checkboxes[index].checked) {
+            newTotalPrice += Number(productPrice.current[1].innerHTML.replace(/[^0-9.-]+/g,""))*productQuantity.current[1].value
+        } else {
+            newTotalPrice -= Number(productPrice.current[1].innerHTML.replace(/[^0-9.-]+/g,""))*productQuantity.current[1].value
+        }
+        setSelectedTotalPrice(newTotalPrice);
+        console.log(SelectedTotalPrice)
     })
     const orderTotal = () => {
         
@@ -140,13 +156,13 @@ const Cart = () => {
                 {orders.length!==0 && filteredOrders===null ?
                 orders.map((item, index) => 
                 <div key={item.id} id="body-content">
-                    <input ref={checkboxInputs} onChange={(e) => handleCheck(e)} type={'checkbox'} defaultChecked={isCheckedAll} name={'check-item'}></input>
+                    <input ref={checkboxInputs[index]} onChange={(e) => handleCheck(e)} type={'checkbox'} defaultChecked={isCheckedAll} name={'check-item'}></input>
                     <div id="content-item">
                         <img src={item.image}></img>
                         <p>{item.name}</p>
                     </div>
-                    <p ref={productPrice}>${item.price}.00</p>
-                    <input ref={productQuantity} type={'number'} value={item.quantity} min={1}></input>
+                    <p id='product-price' ref={productPrice[index]}>${item.price}.00</p>
+                    <input id='product-quantity' ref={productQuantity[index]} type={'number'} value={item.quantity} min={1}></input>
                     <p>${Number(item.price)*Number(item.quantity)}.00</p>
                     <button>Remove</button>
                 </div>
@@ -154,15 +170,15 @@ const Cart = () => {
                 orders.length===0 && filteredOrders===null ?
                 <div className="body-message"><p>Nothing in your cart</p></div> :
                 filteredOrders!==null && filteredOrders.length>0 ?
-                filteredOrders.map((item) => 
+                filteredOrders.map((item, index) => 
                 <div key={item.id} id="body-content">
-                    <input ref={checkboxInputs} onChange={(e) => handleCheck(e)} type={'checkbox'} defaultChecked={isCheckedAll} name={'check-item'}></input>
+                    <input ref={checkboxInputs[index]} onChange={(e) => handleCheck(e)} type={'checkbox'} defaultChecked={isCheckedAll} name={'check-item'}></input>
                     <div id="content-item">
                         <img src={item.image}></img>
                         <p>{item.name}</p>
                     </div>
-                    <p ref={productPrice}>${item.price}.00</p>
-                    <input ref={productQuantity} type={'number'} value={item.quantity} min={1}></input>
+                    <p id='product-price' ref={productPrice[index]}>${item.price}.00</p>
+                    <input id='product-quantity' ref={productQuantity[index]} type={'number'} value={item.quantity} min={1}></input>
                     <p>${Number(item.price)*Number(item.quantity)}.00</p>
                     <button>Remove</button>
                 </div>
