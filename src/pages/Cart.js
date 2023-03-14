@@ -109,12 +109,12 @@ const Cart = () => {
         // console.log((productQuantity.current[1].value))
         let newTotalPrice = selectedTotalPrice;
         let newTotalItem = selectedTotalItem;
-        if (checkboxes[index].checked) {
-            newTotalPrice += Number(productPrice.current[1].innerHTML.replace(/[^0-9.-]+/g,""))*productQuantity.current[1].value
-        } else {
-            newTotalPrice -= Number(productPrice.current[1].innerHTML.replace(/[^0-9.-]+/g,""))*productQuantity.current[1].value
-        }
-        setSelectedTotalPrice(newTotalPrice);
+        // if (checkboxes[index].checked) {
+        //     newTotalPrice += Number(productPrice.current[1].innerHTML.replace(/[^0-9.-]+/g,""))*productQuantity.current[1].value
+        // } else {
+        //     newTotalPrice -= Number(productPrice.current[1].innerHTML.replace(/[^0-9.-]+/g,""))*productQuantity.current[1].value
+        // }
+        // setSelectedTotalPrice(newTotalPrice);
     })
     // console.log(SelectedTotalPrice)
     const orderTotal = () => {
