@@ -261,6 +261,20 @@ const Cart = () => {
                 <div className="body-message"><p>No item matched your search</p></div>
                 }
 
+                {/* {orders.map((item, key) => 
+                    <div key={item.id} id="body-content">
+                        <input  type={'checkbox'} name={'check-item'+ key}></input>
+                        <div id="content-item">
+                            <img src={item.image}></img>
+                            <p>{item.name}</p>
+                        </div>
+                        <p>${item.price}.00 - {item.quantity}</p>
+                        <input type={'number'} value={item.quantity} min={1} name={'quantity'+ key} onChange={event => handleOnchange(event)}></input>
+                        <p>${Number(item.price)*Number(item.quantity)}.00</p>
+                        <button>Remove</button>
+                    </div>
+                )} */}
+
                 <div id="body-checkout">
                     <div id="checkout-left">
                         <input onChange={handleCheckAll} type={'checkbox'} name={'check-all'}></input>
